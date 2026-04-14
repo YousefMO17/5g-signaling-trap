@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+intel/*.json
+.DS_Store

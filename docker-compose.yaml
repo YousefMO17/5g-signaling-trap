@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  signaling-trap:
+    build: . 
+    container_name: signaling-trap
+    ports: 
+    - "3868:3868"
+    volumes:
+      - ./intel:/app/intel
+    restart: unless-stopped
+    networks:
+      - honeypot-net
+    cap_add:
+      - NET_BIND_SERVICE
+
+
+  intel-analyzer:
+    build: . 
+    container_name: intel-analyzer
+    volumes:
+      - ./intel:/app/intel
+    command: python intel_analyzer.py
+    depends_on:
+      - signaling-trap
+    networks:
+      - honeypot-net
+networks:
+  honeypot-net:
+    driver: bridge
+
+
+
